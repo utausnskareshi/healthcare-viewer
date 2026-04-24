@@ -1,0 +1,48 @@
+# =====================================================
+# Healthcare Viewer — .gitignore
+# =====================================================
+# Real personal health data must NEVER be committed.
+data.zip
+*.zip
+apple_health_export/
+export.xml
+export_cda.xml
+workout-routes/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+*.swp
+*.swo
+*~
+
+# Editors
+.vscode/
+.idea/
+*.iml
+.cursor/
+
+# Node / build (this project is build-free, but keep just in case)
+node_modules/
+dist/
+build/
+*.log
+npm-debug.log*
+
+# Python (used only for one-off scripts)
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.pytest_cache/
+
+# Local server / temp
+/tmp/
+*.tmp
+*.bak
+
+# Claude Code / agent metadata
+.claude/
