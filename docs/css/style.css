@@ -1,0 +1,493 @@
+:root {
+  --c-bg: #f2f2f7;
+  --c-surface: #ffffff;
+  --c-surface-2: #f7f7fa;
+  --c-border: #e5e5ea;
+  --c-text: #1c1c1e;
+  --c-text-2: #6b6b70;
+  --c-text-3: #9a9aa0;
+  --c-primary: #ff435e;
+  --c-primary-2: #ff6b80;
+  --c-blue: #0a84ff;
+  --c-green: #30d158;
+  --c-orange: #ff9f0a;
+  --c-purple: #bf5af2;
+  --c-danger: #ff3b30;
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+  --header-h: 52px;
+  --tabbar-h: 64px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-bg: #000000;
+    --c-surface: #1c1c1e;
+    --c-surface-2: #2c2c2e;
+    --c-border: #38383a;
+    --c-text: #ffffff;
+    --c-text-2: #a0a0a6;
+    --c-text-3: #6b6b70;
+  }
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* HTML `hidden` attribute must always win over our display: flex/block rules.
+   Without this, .modal { display:flex } overrides [hidden] and the modal
+   is visible on first load with empty Cancel/OK buttons. */
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+  touch-action: manipulation;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  padding-top: calc(var(--safe-top) + var(--header-h));
+  padding-bottom: calc(var(--safe-bottom) + var(--tabbar-h));
+  min-height: 100vh;
+}
+
+/* Header */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--safe-top) + var(--header-h));
+  padding: var(--safe-top) 8px 0;
+  display: flex;
+  align-items: center;
+  background: color-mix(in srgb, var(--c-surface) 90%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 0.5px solid var(--c-border);
+  z-index: 100;
+}
+.app-header h1 {
+  flex: 1;
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--c-primary);
+  font-size: 22px;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  font-weight: 400;
+}
+.icon-btn:disabled { color: var(--c-text-3); }
+
+/* Tab bar */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  height: calc(var(--safe-bottom) + var(--tabbar-h));
+  padding-bottom: var(--safe-bottom);
+  background: color-mix(in srgb, var(--c-surface) 90%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-top: 0.5px solid var(--c-border);
+  z-index: 100;
+}
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 0;
+  background: none;
+  border: none;
+  color: var(--c-text-2);
+  font-size: 10px;
+  cursor: pointer;
+}
+.tab.active { color: var(--c-primary); }
+.tab-ic { font-size: 22px; line-height: 1; }
+
+/* Main */
+#view {
+  padding: 12px;
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Cards */
+.card {
+  background: var(--c-surface);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.card h2 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.card > div, .card > p, .card > ul, .card > ol {
+  max-width: 100%;
+}
+
+.row { display: flex; align-items: center; gap: 10px; min-width: 0; max-width: 100%; }
+.row.between { justify-content: space-between; }
+.row.wrap { flex-wrap: wrap; }
+.row > * { min-width: 0; }
+
+.muted { color: var(--c-text-2); font-size: 13px; overflow-wrap: anywhere; }
+.tiny  { color: var(--c-text-3); font-size: 12px; overflow-wrap: anywhere; }
+
+/* Buttons */
+.btn {
+  appearance: none;
+  background: var(--c-surface-2);
+  color: var(--c-text);
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  line-height: 1.2;
+}
+.btn-primary { background: var(--c-primary); color: #fff; }
+.btn-danger  { background: var(--c-danger);  color: #fff; }
+.btn-block   { display: block; width: 100%; }
+.btn:active { opacity: 0.7; }
+
+/* Segmented control */
+.seg {
+  display: inline-flex;
+  background: var(--c-surface-2);
+  border-radius: 10px;
+  padding: 2px;
+  gap: 2px;
+  overflow-x: auto;
+  max-width: 100%;
+  scrollbar-width: none;
+}
+.seg::-webkit-scrollbar { display: none; }
+.seg button {
+  background: none;
+  border: none;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-text-2);
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.seg button.on {
+  background: var(--c-surface);
+  color: var(--c-text);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+/* List */
+.list {
+  background: var(--c-surface);
+  border-radius: 14px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-top: 0.5px solid var(--c-border);
+  cursor: pointer;
+  color: var(--c-text);
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  width: 100%;
+  max-width: 100%;
+  text-align: left;
+  font: inherit;
+  min-width: 0;
+}
+.list-item > * { min-width: 0; }
+.list-item:first-child { border-top: none; }
+.list-item:active { background: var(--c-surface-2); }
+.list-item .chev { margin-left: auto; color: var(--c-text-3); flex-shrink: 0; }
+.list-item .ic { font-size: 22px; width: 30px; text-align: center; flex-shrink: 0; }
+.list-item .ttl { font-weight: 500; overflow-wrap: anywhere; }
+.list-item .sub { font-size: 12px; color: var(--c-text-2); overflow-wrap: anywhere; }
+
+/* Grid cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+@media (min-width: 520px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+.metric-card {
+  background: var(--c-surface);
+  border-radius: 14px;
+  padding: 12px;
+  cursor: pointer;
+  border: none;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+}
+.metric-card .name { font-size: 12px; color: var(--c-text-2); }
+.metric-card .value {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 4px 0 2px;
+}
+.metric-card .unit { font-size: 11px; color: var(--c-text-3); margin-left: 2px; font-weight: 500; }
+.metric-card .note { font-size: 11px; color: var(--c-text-3); }
+.metric-card .ic {
+  float: right;
+  font-size: 20px;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--safe-bottom) + var(--tabbar-h) + 20px);
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  z-index: 200;
+  max-width: 80%;
+  text-align: center;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  padding: 20px;
+}
+.modal-card {
+  background: var(--c-surface);
+  border-radius: 14px;
+  padding: 18px;
+  max-width: 340px;
+  width: 100%;
+}
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+.modal-actions .btn { flex: 1; }
+
+/* Import */
+/* Drop zone: visible block; the actual <input type="file"> is overlaid
+   transparently on top so taps go directly to the native input. This is
+   the most reliable iOS PWA pattern (programmatic .click() can be flaky). */
+.drop {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border: 2px dashed var(--c-border);
+  border-radius: 14px;
+  padding: 28px 16px;
+  text-align: center;
+  background: var(--c-surface);
+  color: var(--c-text-2);
+  cursor: pointer;
+  font: inherit;
+  -webkit-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+.drop:active { opacity: 0.7; }
+.drop.hot { border-color: var(--c-primary); background: color-mix(in srgb, var(--c-primary) 10%, var(--c-surface)); }
+.drop > * { max-width: 100%; word-break: break-word; pointer-events: none; }
+.drop > input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  font-size: 0;       /* keeps iOS from sizing the input weirdly */
+  pointer-events: auto;
+}
+
+/* Visually hidden file input — must remain in DOM and clickable
+   programmatically; display:none breaks .click() on iOS PWA. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Progress */
+.progress {
+  height: 6px;
+  background: var(--c-surface-2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress .bar {
+  height: 100%;
+  background: var(--c-primary);
+  width: 0%;
+  transition: width 0.2s;
+}
+
+/* Chart container */
+.chart-wrap {
+  position: relative;
+  height: 260px;
+  background: var(--c-surface);
+  border-radius: 14px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* Map container */
+#mapView {
+  width: 100%;
+  height: 380px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.leaflet-container { background: var(--c-surface-2); }
+
+/* Stat strip */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.stats .s {
+  background: var(--c-surface);
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.stats .s .l { font-size: 10px; color: var(--c-text-2); }
+.stats .s .v { font-size: 16px; font-weight: 700; }
+
+/* Date range */
+.daterange {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.daterange input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--c-border);
+  background: var(--c-surface);
+  color: var(--c-text);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.name-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--c-border);
+  background: var(--c-surface-2);
+  color: var(--c-text);
+  font-size: 15px;
+  font-family: inherit;
+}
+
+/* Install hint */
+.hint {
+  font-size: 13px;
+  color: var(--c-text-2);
+  line-height: 1.6;
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--c-text-2);
+}
+.empty .big { font-size: 48px; margin-bottom: 8px; }
+
+/* Badge */
+.badge {
+  display: inline-block;
+  background: var(--c-surface-2);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  color: var(--c-text-2);
+}
+.badge.active { background: var(--c-primary); color: #fff; }
+
+/* iOS prevent text selection on UI chrome */
+.app-header, .tab-bar, .seg, .btn, .tab {
+  -webkit-user-select: none;
+  user-select: none;
+}
